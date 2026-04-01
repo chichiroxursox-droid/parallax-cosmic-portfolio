@@ -1,0 +1,343 @@
+/* ── §1 Hero ── */
+#hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 10vw, 8rem);
+  letter-spacing: 0.08em;
+  color: var(--starlight);
+}
+
+.hero-tagline {
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-weight: 300;
+  color: var(--muted);
+  margin-top: 1rem;
+  opacity: 0;
+}
+
+.hero-hint {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--cyan);
+  margin-top: 2rem;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  text-shadow: 0 0 12px rgba(0, 245, 255, 0.3);
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 2;
+}
+
+.scroll-arrow {
+  font-size: 1.2rem;
+  color: var(--cyan);
+  animation: bounce 2s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* ── §2 About ── */
+#about {
+  position: relative;
+  min-height: 150vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 0%, var(--navy) 30%, var(--navy) 70%, transparent 100%);
+}
+
+.about-content {
+  max-width: 700px;
+  padding: 0 2rem;
+}
+
+.reveal-line {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  line-height: 1.8;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.stats-row {
+  display: flex;
+  gap: 3rem;
+  margin-top: 4rem;
+  justify-content: center;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ── §3 Work ── */
+#work {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.work-track {
+  display: flex;
+  gap: 4vw;
+  padding: 0 10vw;
+  align-items: center;
+  height: 100%;
+  will-change: transform;
+}
+
+/* Card base — shared by <a> and <div> variants */
+.work-card {
+  flex-shrink: 0;
+  width: 35vw;
+  min-width: 300px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(4px);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  /* Elevation + border-color + opacity all transition together */
+  transition:
+    transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    opacity 0.4s ease;
+  will-change: transform, opacity;
+  /* Tilt transform is applied by JS via inline style; perspective is set here */
+  transform-style: preserve-3d;
+}
+
+/* Accent-aware hover glow — driven by --accent CSS variable on the card */
+a.work-card:hover {
+  border-color: var(--accent, var(--cyan));
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--accent, var(--cyan)) 30%, transparent);
+}
+
+/* Active card (nearest viewport center) — set by JS */
+.work-card.is-active {
+  opacity: 1 !important;
+  transform: scale(1.02);
+}
+
+.work-card.is-flanking {
+  opacity: 0.6;
+}
+
+/* Thumbnail — 16:9 animated gradient placeholder */
+/* --accent is inherited from the parent .work-card via inline style */
+.card-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, var(--accent, var(--cyan)) 0%, var(--void) 100%);
+  background-size: 200% 200%;
+  animation: thumb-drift 6s ease-in-out infinite alternate;
+}
+
+/* Subtle scanline texture overlay on thumbnail */
+.card-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+}
+
+@keyframes thumb-drift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Card text content padding (now that card itself has padding: 0) */
+.work-card .label,
+.work-card h3,
+.work-card p,
+.work-card .work-year {
+  display: block;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.work-card .label {
+  padding-top: 1.5rem;
+}
+
+.work-card h3 {
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  margin: 0.75rem 0 0.5rem;
+  padding-top: 0;
+}
+
+.work-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.work-year {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  padding-top: 0;
+  padding-bottom: 2rem;
+  margin-top: 1.5rem;
+}
+
+.work-progress {
+  position: absolute;
+  bottom: 2rem;
+  left: 10vw;
+  right: 10vw;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.work-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--cyan);
+  transition: width 0.1s linear;
+}
+
+/* ── §4 Zoom ── */
+#zoom {
+  position: relative;
+  height: 150vh;
+  z-index: 1;
+}
+
+/* ── §5 Services ── */
+#services {
+  position: relative;
+  min-height: 150vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.services-content {
+  max-width: 700px;
+  padding: 0 2rem;
+}
+
+.services-heading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 3.5rem;
+  color: var(--amber);
+  text-shadow: 0 0 30px rgba(255, 180, 50, 0.25);
+}
+
+/* Constellation labels — positioned by JS via 3D projection */
+.constellation-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--starlight);
+  white-space: nowrap;
+}
+
+.constellation-desc {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 3px;
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+/* ── §6 Contact ── */
+#contact {
+  position: relative;
+  height: 200vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  z-index: 1;
+}
+
+.contact-heading {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--cyan);
+  text-shadow: 0 0 30px rgba(0, 245, 255, 0.25);
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: clamp(2rem, 12vw, 4rem);
+  }
+
+  .work-card {
+    width: 80vw;
+    min-width: 260px;
+  }
+
+  .stats-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

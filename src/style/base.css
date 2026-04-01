@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=JetBrains+Mono:wght@400&display=swap');
+
+:root {
+  --void: #03040a;
+  --navy: #0a0f2e;
+  --cyan: #00f5ff;
+  --violet: #7c3aed;
+  --flare: #ff6b35;
+  --amber: #c8b800;
+  --starlight: #e8eaf0;
+  --muted: #888888;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--void);
+  color: var(--starlight);
+  font-family: var(--font-display);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* Hide native cursor on pointer devices — custom cursor takes over */
+@media (hover: hover) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Loader overlay ─────────────────────────────────────────────────────── */
+#loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--void);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+}
+
+.loader-bar-track {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.loader-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+  transition: width 0.3s ease;
+  border-radius: 1px;
+}
+
+/* ── Scroll dot navigation ──────────────────────────────────────────────── */
+.scroll-nav {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+}
+
+.scroll-nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  opacity: 0.3;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s, opacity 0.3s, box-shadow 0.3s;
+}
+
+.scroll-nav-dot.active {
+  background: var(--cyan);
+  opacity: 1;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.scroll-nav-dot:hover {
+  opacity: 0.7;
+}
+
+.scroll-nav-dot.active:hover {
+  opacity: 1;
+}
+
+.scroll-nav-label {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.scroll-nav-dot:hover .scroll-nav-label {
+  opacity: 1;
+}
+
+/* Film grain is now handled by NoiseEffect in the postprocessing pipeline */
