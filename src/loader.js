@@ -9,7 +9,7 @@ import { sphere, ring, ring2, stars, starMat } from './sections/hero.js';
  * Sequence:
  *  0. Overlay is visible from HTML, progress bar fills while WebGL + fonts load
  *  1. Progress bar dissolves
- *  2. "PARALLAX" title wipes in via clip-path (left → right)
+ *  2. "COSMOS" title wipes in via clip-path (left → right)
  *  3. Sphere scales 0 → 1 with elastic.out
  *  4. Orbital rings sweep in with staggered rotation
  *  5. Tagline fades in
